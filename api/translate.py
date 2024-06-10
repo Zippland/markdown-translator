@@ -5,8 +5,13 @@ from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 import markdown2
 import tempfile
+from dotenv import load_dotenv
+
+# 加载环境变量
+load_dotenv()
 
 app = Flask(__name__)
+app.config["DEBUG"] = True
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 @app.route('/api/translate', methods=['POST'])
@@ -38,6 +43,7 @@ def translate():
 
         return jsonify({'translated_file_path': translated_file_path})
     except Exception as e:
+        app.logger.error(f"Error during translation: {e}")
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
