@@ -3,6 +3,7 @@ import openai
 import json
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
+import markdown2
 import tempfile
 
 app = Flask(__name__)
@@ -20,18 +21,14 @@ def translate():
     filename = secure_filename(file.filename)
     content = file.read().decode('utf-8')
 
-    system_content = "You are a helpful assistant."
-    prompt = f"Translate the following markdown content to Chinese:\n\n{content}"
-
     try:
         response = openai.ChatCompletion.create(
-            model="gpt-4o",
+            model="gpt-4",
             messages=[
-                {"role": "system", "content": system_content},
-                {"role": "user", "content": prompt}
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": f"Translate the following markdown content to Chinese:\n\n{content}"}
             ],
-            max_tokens=4096,
-            temperature=0.3
+            max_tokens=2048,
         )
 
         translated_content = response.choices[0].message['content'].strip()
