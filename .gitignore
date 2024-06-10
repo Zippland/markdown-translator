@@ -34,17 +34,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# Node.js
-node_modules/
-.next/
-.env.local
-
-# Python
-venv/
-__pycache__/
-*.pyc
-
-# Other
-.DS_Store
 .env
