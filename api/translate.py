@@ -21,16 +21,13 @@ def translate():
     content = file.read().decode('utf-8')
 
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-4",
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": f"Translate the following markdown content to Chinese:\n\n{content}"}
-            ],
-            max_tokens=4096,
+        response = openai.Completion.create(
+            engine="text-davinci-003",  # 使用适当的引擎名称
+            prompt=f"Translate the following markdown content to Chinese:\n\n{content}",
+            max_tokens=2048
         )
 
-        translated_content = response.choices[0].message['content'].strip()
+        translated_content = response.choices[0].text.strip()
 
         translated_file_path = os.path.join(tempfile.gettempdir(), f"translated_{filename}")
         with open(translated_file_path, 'w', encoding='utf-8') as f:
