@@ -1,12 +1,12 @@
 {
-    "version": 2,
-    "builds": [
-      { "src": "api/*.py", "use": "@vercel/python" },
-      { "src": "pages/**/*", "use": "@vercel/next" }
-    ],
-    "routes": [
-      { "src": "/api/translate", "dest": "/api/translate.py" },
-      { "src": "/api/download", "dest": "/api/download.py" }
-    ]
-  }
-  
+  "version": 2,
+  "builds": [
+    { "src": "api/translate.py", "use": "@vercel/python" },
+    { "src": "api/download.py", "use": "@vercel/python" },
+    { "src": "package.json", "use": "@vercel/next" }
+  ],
+  "routes": [
+    { "src": "/api/translate", "dest": "/api/translate.py" },
+    { "src": "/api/download", "dest": "/api/download.py" }
+  ]
+}
