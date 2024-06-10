@@ -3,12 +3,7 @@ import openai
 import json
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
-import markdown2
 import tempfile
-from dotenv import load_dotenv
-
-# 加载环境变量
-load_dotenv()
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -32,7 +27,7 @@ def translate():
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": f"Translate the following markdown content to Chinese:\n\n{content}"}
             ],
-            max_tokens=2048,
+            max_tokens=4096,
         )
 
         translated_content = response.choices[0].message['content'].strip()
