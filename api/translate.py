@@ -20,14 +20,21 @@ def translate():
     filename = secure_filename(file.filename)
     content = file.read().decode('utf-8')
 
+    system_content = "You are a helpful assistant."
+    prompt = f"Translate the following markdown content to Chinese:\n\n{content}"
+
     try:
-        response = openai.Completion.create(
-            engine="text-davinci-003",  # 使用适当的引擎名称
-            prompt=f"Translate the following markdown content to Chinese:\n\n{content}",
-            max_tokens=2048
+        response = openai.ChatCompletion.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": system_content},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=4096,
+            temperature=0.3
         )
 
-        translated_content = response.choices[0].text.strip()
+        translated_content = response.choices[0].message['content'].strip()
 
         translated_file_path = os.path.join(tempfile.gettempdir(), f"translated_{filename}")
         with open(translated_file_path, 'w', encoding='utf-8') as f:
